@@ -1,4 +1,4 @@
-using Broker.Consumer;
+using Broker.Consumers;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -20,7 +20,7 @@ namespace Broker.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder()
         {
-            var orderEvent = new OrderCreatedEvent { OrderId = 1 }; // Hardcoded for simplicity
+            var orderEvent = new OrderCreatedEvent { OrderId = 1 };
             await _bus.Publish(orderEvent);
             return Ok("Order published");
         }

@@ -1,7 +1,7 @@
 ﻿using Broker.Dtos;
 using MassTransit;
 
-namespace Broker.Consumer;
+namespace Broker.Consumers;
 
 public class OrderCreatedConsumer : IConsumer<OrderCreatedEvent>
 {
@@ -15,7 +15,6 @@ public class OrderCreatedConsumer : IConsumer<OrderCreatedEvent>
     private async Task ProcessOrder(OrderCreatedEvent order)
     {
         Console.WriteLine($"Processing order {order.OrderId}");
-        // Add your logic here
 
         await Task.FromResult(order);
     }
