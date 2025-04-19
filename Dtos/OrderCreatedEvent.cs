@@ -2,5 +2,10 @@
 
 public class OrderCreatedEvent
 {
-    public int OrderId { get; set; }
+    public OrderCreatedEvent()
+    {
+        Id = Guid.NewGuid();
+    }
+
+    public Guid Id { get; set; }
 }

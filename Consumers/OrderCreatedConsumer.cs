@@ -1,21 +1,22 @@
 ﻿using Broker.Dtos;
+using Broker.Interfaces.Application;
 using MassTransit;
 
 namespace Broker.Consumers;
 
 public class OrderCreatedConsumer : IConsumer<OrderCreatedEvent>
 {
-    public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
+    private readonly IOrderAppService _orderAppService;
+
+    public OrderCreatedConsumer(IOrderAppService appService)
     {
-        var message = context.Message;
-        Console.WriteLine($"Received order: {message.OrderId}");
-        await ProcessOrder(message);
+        _orderAppService = appService;
     }
 
-    private async Task ProcessOrder(OrderCreatedEvent order)
+    public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
     {
-        Console.WriteLine($"Processing order {order.OrderId}");
+        Console.WriteLine($"Process state: [Consumer] - Id: [{context.Message.Id}]");
 
-        await Task.FromResult(order);
+        await _orderAppService.ProcessOrder(context.Message);
     }
 }

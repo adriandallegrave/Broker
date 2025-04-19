@@ -9,20 +9,29 @@ namespace Broker.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IBus _bus;
-        private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(IBus bus, ILogger<OrdersController> logger)
+        public OrdersController(IBus bus)
         {
             _bus = bus;
-            _logger = logger;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateOrder()
         {
-            var orderEvent = new OrderCreatedEvent { OrderId = 1 };
-            await _bus.Publish(orderEvent);
-            return Ok("Order published");
+            var order = new OrderCreatedEvent();
+
+            Console.WriteLine($"Process state: [Controller] - Id: [{order.Id}]");
+
+            await _bus.Publish(order);
+
+            return Ok($"Order created. Id: [{order.Id}]");
+        }
+
+        [HttpPost("SimulateResponse")]
+        public async Task<IActionResult> SimulateResponse([FromBody] ResponseEvent responseEvent)
+        {
+            await _bus.Publish(responseEvent);
+            return Ok("Response event published");
         }
     }
 }
